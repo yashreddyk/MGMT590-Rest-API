@@ -1,13 +1,12 @@
-import os
-
+# Import all the dependecies
 from transformers.pipelines import pipeline
 from flask import Flask
 from flask import request
 from flask import jsonify
+import time
 import sqlite3
-from sqlite3 import Error
-import datetime, time
-import urllib.parse
+import os
+import torch
 
 # Create my flask app
 app = Flask(__name__)
