@@ -1,5 +1,6 @@
-import os
+#importing libraries
 
+import os
 from transformers.pipelines import pipeline
 from flask import Flask
 from flask import request
