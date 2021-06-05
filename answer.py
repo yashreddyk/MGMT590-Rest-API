@@ -302,4 +302,6 @@ if __name__ == '__main__':
 
     #Create answer_histroy table to maintain the history of the questions answered along with models and timestamps.
     c.execute("CREATE TABLE IF NOT EXISTS answer_history (model_name text, question text, context text, answer text, timestamp integer primary key);")
+    conn.commit()
+    conn.close()
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)), threaded=True)
