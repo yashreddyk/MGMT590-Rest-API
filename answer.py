@@ -374,7 +374,7 @@ if __name__ == '__main__':
                                 dbname,password])
     con = psycopg2.connect(dbconnect)
     cur = con.cursor()
-    cur.execute('''CREATE TABLE answers
+    cur.execute('''CREATE TABLE IF NOT EXISTS answers
                (question text, context text, model text, answer text, timestamp int)''')
     con.commit()
     con.close()
