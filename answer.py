@@ -257,5 +257,49 @@ if __name__ == '__main__':
 
     #Create tables if not exists..
     createTables()
+    
+    rootcert_content = format(os.environ.get('PG_SSLROOTCERT'))
+    fcert_content = format(os.environ.get('PG_SSLCERT'))
+    fkey_content = format(os.environ.get('PG_SSLKEY'))
+      
+    #Write SSL content into temp files
+    frootcert = open("sslrootcert.txt","w")
+    frootcert.write(rootcert_content.replace("@","="))
+    frootcert.close()
+    fcert = open("sslcert.txt","w")
+    fcert.write(fcert_content.replace("@","="))
+    fcert.close()
+    fkey = open("sslkey.txt","w")
+    fkey.write(fkey_content.replace("@","="))
+    fkey.close()
 
+    #Change unix permissions to restricted
+    os.chmod("sslrootcert.txt",0o600)
+    os.chmod("sslcert.txt",0o600)
+    os.chmod("sslkey.txt",0o600)
+
+    sslmode="sslmode=verify-ca"
+    sslrootcert = "sslrootcert=sslrootcert.txt"
+    sslcert = "sslcert=sslcert.txt"
+    sslkey = "sslkey=sslkey.txt"
+    hostaddr = "hostaddr={}".format(os.environ.get('PG_HOST'))
+    user = "user=postgres"
+    password = "password={}".format(os.environ.get('PG_PASSWORD'))
+    dbname="dbname=mgmt590"
+
+    dbconnect = " ".join([sslmode,
+                          sslrootcert,
+                          sslcert,
+                          sslkey,
+                          hostaddr,
+                          user,
+                          dbname,password])
+    conn = psycopg2.connect(dbconnect)
+    c = conn.cursor()
+
+    #Create table models to store models added
+    c.execute("CREATE TABLE IF NOT EXISTS models (name text primary key, model text, tokenizer text);")
+
+    #Create answer_histroy table to maintain the history of the questions answered along with models and timestamps.
+    c.execute("CREATE TABLE IF NOT EXISTS answer_history (model_name text, question text, context text, answer text, timestamp integer primary key);")
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)), threaded=True)
