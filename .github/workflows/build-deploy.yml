@@ -9,8 +9,8 @@ env:
   SERVICE: mgmt590-rest-api
   REGION: us-central1
   PG_SSLROOTCERT: ${{ secrets.SERVER_CA }}
-  PG_SSLCERT: ${{ secrets.CLIENT_CA }}
-  PG_SSLKEY: ${{ secrets.CLIENT_CA }}
+  PG_SSLCERT: ${{ secrets.CLIENT_CERT }}
+  PG_SSLKEY: ${{ secrets.CLIENT_KEY }}
   PG_HOST: ${{ secrets.PG_HOST }}
   PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
 
