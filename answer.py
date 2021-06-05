@@ -162,9 +162,9 @@ def create_connection():
       #  conn = sqlite3.connect(db_file,check_same_thread=False)
       
       #Read SSL certificate content from env
-      rootcert_content = format(os.environ.get('SERVER_CA'))
-      fcert_content = format(os.environ.get('CLIENT_CERT'))
-      fkey_content = format(os.environ.get('CLIENT_KEY'))
+      rootcert_content = format(os.environ.get('PG_SSLROOTCERT'))
+      fcert_content = format(os.environ.get('PG_SSLCERT'))
+      fkey_content = format(os.environ.get('PG_SSLKEY'))
       
       #Write SSL content into temp files
       frootcert = open("sslrootcert.txt","w")
